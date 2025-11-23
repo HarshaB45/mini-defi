@@ -5,6 +5,9 @@ node_modules
 ResearchReference/
 research_reference.txt
 
+# Debug/temporary scripts
+scripts/test-liquidation.js
+
 # TypeChain files
 /typechain
 /typechain-types
