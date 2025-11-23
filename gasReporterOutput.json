@@ -247,20 +247,10 @@
     "contract": "LendingPool",
     "method": "isHealthy",
     "fnSig": "isHealthy(address)",
-    "intrinsicGas": [
-     21420
-    ],
-    "callData": [
-     0
-    ],
-    "gasData": [
-     88464
-    ],
-    "numberOfCalls": 1,
-    "executionGasAverage": 88464,
-    "calldataGasAverage": 0,
-    "min": 88464,
-    "max": 88464
+    "intrinsicGas": [],
+    "callData": [],
+    "gasData": [],
+    "numberOfCalls": 0
    },
    "LendingPool_bcbaf487": {
     "key": "bcbaf487",
@@ -268,10 +258,20 @@
     "contract": "LendingPool",
     "method": "liquidate",
     "fnSig": "liquidate(address,uint256)",
-    "intrinsicGas": [],
-    "callData": [],
-    "gasData": [],
-    "numberOfCalls": 0
+    "intrinsicGas": [
+     21560
+    ],
+    "callData": [
+     0
+    ],
+    "gasData": [
+     135388
+    ],
+    "numberOfCalls": 1,
+    "executionGasAverage": 135388,
+    "calldataGasAverage": 0,
+    "min": 135388,
+    "max": 135388
    },
    "LendingPool_53696eb8": {
     "key": "53696eb8",
@@ -404,10 +404,20 @@
     "contract": "LendingPool",
     "method": "withdraw",
     "fnSig": "withdraw(uint256)",
-    "intrinsicGas": [],
-    "callData": [],
-    "gasData": [],
-    "numberOfCalls": 0
+    "intrinsicGas": [
+     21204
+    ],
+    "callData": [
+     0
+    ],
+    "gasData": [
+     107632
+    ],
+    "numberOfCalls": 1,
+    "executionGasAverage": 107632,
+    "calldataGasAverage": 0,
+    "min": 107632,
+    "max": 107632
    },
    "LendingPool_853828b6": {
     "key": "853828b6",
@@ -475,9 +485,11 @@
      21572,
      21572,
      21584,
+     21572,
      21572
     ],
     "callData": [
+     0,
      0,
      0,
      0,
@@ -490,11 +502,12 @@
      46892,
      46892,
      46892,
+     46892,
      46904,
      46904
     ],
-    "numberOfCalls": 6,
-    "executionGasAverage": 46896,
+    "numberOfCalls": 7,
+    "executionGasAverage": 46895,
     "calldataGasAverage": 0,
     "min": 46892,
     "max": 46904
@@ -533,9 +546,11 @@
      21560,
      21572,
      21584,
-     21560
+     21560,
+     21572
     ],
     "callData": [
+     0,
      0,
      0,
      0,
@@ -547,12 +562,13 @@
      37050,
      54150,
      54150,
+     54162,
      71262,
      71274,
      71274
     ],
-    "numberOfCalls": 6,
-    "executionGasAverage": 59860,
+    "numberOfCalls": 7,
+    "executionGasAverage": 59046,
     "calldataGasAverage": 0,
     "min": 37050,
     "max": 71274
