@@ -113,18 +113,22 @@ describe("LendingPool", function () {
         await assetToken.connect(lender).approve(pool.target, DEPOSIT_AMOUNT);
         await pool.connect(lender).deposit(DEPOSIT_AMOUNT);
 
-        // Borrower deposits collateral and borrows
+        // Borrower deposits collateral and borrows close to the limit
         await assetToken.connect(owner).mint(borrower.address, COLLATERAL_AMOUNT);
         await assetToken.connect(borrower).approve(pool.target, COLLATERAL_AMOUNT);
         await pool.connect(borrower).deposit(COLLATERAL_AMOUNT);
-        await pool.connect(borrower).borrow(BORROW_AMOUNT);
+        
+        // Borrow close to the maximum to make the position more sensitive to interest
+        const maxBorrow = await pool.maxBorrowable(borrower.address);
+        const borrowAmount = (maxBorrow * 95n) / 100n; // Borrow 95% of max
+        await pool.connect(borrower).borrow(borrowAmount);
 
         // Interest accrues, making the position unhealthy
         await hre.ethers.provider.send("evm_increaseTime", [3600 * 24 * 365 * 10]); // 10 years
         await hre.ethers.provider.send("evm_mine");
         await pool.accrueInterest(borrower.address); // trigger interest accrual
 
-        expect(await pool.isHealthy(borrower.address)).to.be.false;
+        expect(await pool.isHealthy.staticCall(borrower.address)).to.be.false;
 
         // Liquidator prepares to liquidate
         const debt = (await pool.borrows(borrower.address)).principal;

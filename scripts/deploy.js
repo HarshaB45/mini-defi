@@ -28,7 +28,8 @@ async function main() {
     ethers.parseUnits("2", 16),   // 2% base APR
     ethers.parseUnits("10", 16),  // 10% slope APR (low)
     ethers.parseUnits("300", 16), // 300% slope APR (high)
-    ethers.parseUnits("80", 16)   // 80% optimal utilization
+    ethers.parseUnits("80", 16),  // 80% optimal utilization
+    deployer.address              // admin address
   );
   await irm.waitForDeployment();
   const irmAddress = await irm.getAddress();
@@ -38,13 +39,16 @@ async function main() {
   console.log("🏦 Deploying LendingPool...");
   const LendingPool = await ethers.getContractFactory("LendingPool");
   const pool = await LendingPool.deploy(
-    tokenAddress,  // underlying token
-    irmAddress,    // interest rate model
-    ethers.parseUnits("75", 16)  // 75% collateral factor
+    tokenAddress  // underlying token
   );
   await pool.waitForDeployment();
   const poolAddress = await pool.getAddress();
   console.log("✅ LendingPool deployed to:", poolAddress);
+  
+  // Set the interest rate model on the lending pool
+  console.log("🔗 Setting interest rate model on lending pool...");
+  await pool.setIRM(irmAddress);
+  console.log("✅ Interest rate model set successfully");
 
   // Display deployment summary
   console.log("\n" + "=".repeat(60));

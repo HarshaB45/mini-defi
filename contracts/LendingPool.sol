@@ -221,6 +221,17 @@ contract LendingPool {
 
         uint256 actualRepay = amount > debt ? debt : amount;
 
+        // Reduce the borrower's debt
+        b.principal -= actualRepay;
+        if (b.principal == 0) {
+            b.timestamp = 0;
+        } else {
+            b.timestamp = block.timestamp;
+        }
+        
+        // Update total borrows
+        totalBorrows -= actualRepay;
+
         // Seize collateral
         uint256 seizeAmount = (actualRepay * LIQUIDATION_BONUS) / PRECISION;
         uint256 seizeShares = getSharesForAmount(seizeAmount);
@@ -230,6 +241,9 @@ contract LendingPool {
         }
         shares[user] -= seizeShares;
         shares[msg.sender] += seizeShares;
+
+        // Transfer repayment from liquidator to pool
+        asset.safeTransferFrom(msg.sender, address(this), actualRepay);
 
         emit Liquidated(
             msg.sender,
