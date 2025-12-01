@@ -173,6 +173,23 @@ All three should show `LISTENING` status.
 
 ---
 
+## Load accounts
+const [deployer, user] = await ethers.getSigners()
+
+## Load tokens
+const TKA = await ethers.getContractAt("MockERC20", "0x5FbDB2315678afecb367f032d93F642f64180aa3")
+const TKB = await ethers.getContractAt("MockERC20", "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512")
+
+## MINT tokens to deployer first
+await TKA.mint(deployer.address, ethers.parseUnits("1000000", 18))
+await TKB.mint(deployer.address, ethers.parseUnits("1000000", 18))
+
+## NOW transfer tokens to user
+await TKA.transfer(user.address, ethers.parseUnits("1000", 18))
+await TKB.transfer(user.address, ethers.parseUnits("1000", 18))
+
+---
+
 ## 💬 Using the AI Chat Assistant
 
 1. Open the website at http://localhost:8000
