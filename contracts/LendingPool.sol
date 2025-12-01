@@ -353,6 +353,10 @@ contract LendingPool is Ownable, ReentrancyGuard {
 
         UserAssetAccount storage borrowerDebtAcc = userAccounts[_borrower][_debtAsset];
         PoolAssetAccount storage debtPoolAcc = poolAccounts[_debtAsset];
+        UserAssetAccount storage borrowerCollateralAcc = userAccounts[_borrower][_collateralAsset];
+        
+        // Ensure borrower has collateral in the specified asset
+        if (borrowerCollateralAcc.shares == 0) revert InsufficientCollateral();
 
         uint256 totalDebt = (borrowerDebtAcc.borrowPrincipal * debtPoolAcc.borrowIndex) /
             (borrowerDebtAcc.borrowIndex > 0 ? borrowerDebtAcc.borrowIndex : PRECISION);
@@ -373,7 +377,6 @@ contract LendingPool is Ownable, ReentrancyGuard {
         uint256 seizedCollateralAmount = (seizedCollateralValue * (10 ** collateralDecimals)) / collateralPrice;
         
         uint256 seizedShares = _getSharesForAmount(_collateralAsset, seizedCollateralAmount);
-        UserAssetAccount storage borrowerCollateralAcc = userAccounts[_borrower][_collateralAsset];
         if (seizedShares > borrowerCollateralAcc.shares) seizedShares = borrowerCollateralAcc.shares;
 
         // Update borrower's debt
